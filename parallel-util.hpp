@@ -1,3 +1,5 @@
+/// \file parallel-util.hpp
+
 #ifndef parallel_util_hpp
 #define parallel_util_hpp
 
@@ -6,6 +8,9 @@
 
 namespace parallelutil
 {
+    /// \param n The number of iterations. I.e., { 0, 1, ..., n - 1 } will be visited.
+    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression.
+    /// \param target_concurrency The number of threads that will be generated. When this is set to zero (which is the default), the hardware concurrency will be automatically used.
     template<typename Callable>
     void parallel_for(int n, Callable function, int target_concurrency = 0)
     {
@@ -24,6 +29,10 @@ namespace parallelutil
         for (auto& t : threads) { t.join(); }
     }
     
+    /// \param width The width of the target 2D array. I.e., { 0, 1, ..., width - 1 } will be visited as the first dimensional indices.
+    /// \param height The height of the target 2D array. I.e., { 0, 1, ..., height - 1 } will be visited as the second dimensional indices.
+    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression.
+    /// \param target_concurrency The number of threads that will be generated. When this is set to zero (which is the default), the hardware concurrency will be automatically used.
     template<typename Callable>
     void parallel_for_2d(int width, int height, Callable function, int target_concurrency = 0)
     {
