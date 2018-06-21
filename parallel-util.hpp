@@ -10,7 +10,7 @@ namespace parallelutil
 {
     /// \brief Execute a for-loop process for an array in parallel
     /// \param n The number of iterations. I.e., { 0, 1, ..., n - 1 } will be visited.
-    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression.
+    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression. The type should be equivalent to std::function<void(int)>.
     /// \param target_concurrency The number of threads that will be generated. When this is set to zero (which is the default), the hardware concurrency will be automatically used.
     template<typename Callable>
     void parallel_for(int n, Callable function, int target_concurrency = 0)
@@ -33,7 +33,7 @@ namespace parallelutil
     /// \brief Execute a for-loop process for a 2D array (e.g., a bitmap image data) in parallel
     /// \param width The width of the target 2D array. I.e., { 0, 1, ..., width - 1 } will be visited as the first dimensional indices.
     /// \param height The height of the target 2D array. I.e., { 0, 1, ..., height - 1 } will be visited as the second dimensional indices.
-    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression.
+    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression. The type should be equivalent to std::function<void(int, int)>.
     /// \param target_concurrency The number of threads that will be generated. When this is set to zero (which is the default), the hardware concurrency will be automatically used.
     template<typename Callable>
     void parallel_for_2d(int width, int height, Callable function, int target_concurrency = 0)
