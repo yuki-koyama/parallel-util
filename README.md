@@ -28,6 +28,10 @@ Alternatively, it can be installed using `cmake`. If your project is also manage
 
 Please consider to use other complex libraries such as Intel(R) Threading Building Blocks.
 
+## Projects using parallel-util
+
+- OptiMo <https://github.com/yuki-koyama/optimo>
+
 ## LICENSING
 
 MIT License.
