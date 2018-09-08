@@ -30,6 +30,7 @@ Please consider to use other complex libraries such as Intel(R) Threading Buildi
 
 ## Projects using parallel-util
 
+- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search>
 - OptiMo <https://github.com/yuki-koyama/optimo>
 
 ## LICENSING
