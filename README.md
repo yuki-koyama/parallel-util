@@ -32,6 +32,7 @@ Please consider to use other complex libraries such as Intel(R) Threading Buildi
 
 - Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search>
 - OptiMo <https://github.com/yuki-koyama/optimo>
+- SelPh <https://github.com/yuki-koyama/selph>
 
 ## LICENSING
 
