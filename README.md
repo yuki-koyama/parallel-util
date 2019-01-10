@@ -30,8 +30,9 @@ Please consider to use other complex libraries such as Intel(R) Threading Buildi
 
 ## Projects using parallel-util
 
-- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search>
+- Unblending <https://github.com/yuki-koyama/unblending>
 - OptiMo <https://github.com/yuki-koyama/optimo>
+- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search>
 - SelPh <https://github.com/yuki-koyama/selph>
 
 ## LICENSING
