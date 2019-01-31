@@ -57,11 +57,11 @@ namespace parallelutil
 
 #if __cplusplus >= 201402L
     template<typename T, typename Callable>
-    decltype(auto) parallel_map(const std::vector<T>& input_array, Callable op, int target_concurrency = 0)
+    decltype(auto) parallel_map(const std::vector<T>& input_array, Callable function, int target_concurrency = 0)
     {
-        std::vector<decltype(op(input_array.front()))> result_array(input_array.size());
-        auto indexed_op = [&](int index) { result_array[index] = op(input_array[index]); };
-        parallel_for(input_array.size(), indexed_op);
+        std::vector<decltype(function(input_array.front()))> result_array(input_array.size());
+        auto indexed_function = [&](int index) { result_array[index] = function(input_array[index]); };
+        parallel_for(input_array.size(), indexed_function);
         return result_array;
     }
 #endif
