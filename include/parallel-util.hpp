@@ -54,6 +54,17 @@ namespace parallelutil
         for (int j = 0; j < n_threads; ++ j) { threads.push_back(std::thread(inner_loop, j)); }
         for (auto& t : threads) { t.join(); }
     }
+
+#if __cplusplus >= 201402L
+    template<typename T, typename Callable>
+    decltype(auto) parallel_map(const std::vector<T>& input_array, Callable op, int target_concurrency = 0)
+    {
+        std::vector<decltype(op(input_array.front()))> result_array(input_array.size());
+        auto indexed_op = [&](int index) { result_array[index] = op(input_array[index]); };
+        parallel_for(input_array.size(), indexed_op);
+        return result_array;
+    }
+#endif
 }
 
 #endif /* parallel_util_hpp */
