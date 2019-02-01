@@ -82,6 +82,9 @@ namespace parallelutil
     }
 
 #if __cplusplus >= 201402L
+    /// \brief Execute "map" operation to an array in parallel
+    /// \param input_array The array that will be processed by map operation.
+    /// \param function The function that will be used for map operation. It can be specified as a lambda expression. It should take a single input variable whose type is T and returns a non-void class instance etc.
     template<typename T, typename Callable>
     decltype(auto) parallel_map(const std::vector<T>& input_array, Callable function, int target_concurrency = 0)
     {
