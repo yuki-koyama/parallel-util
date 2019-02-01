@@ -3,6 +3,12 @@
 #ifndef parallel_util_hpp
 #define parallel_util_hpp
 
+// Uncommenting the following line enables the "verbose" mode, which may be
+// useful for debugging. However, notice that it affects the overall performance
+// badly as it inserts mutex-locked standard output commands.
+
+// #define PARALLELUTIL_VERBOSE
+
 #include <vector>
 #include <thread>
 #ifdef PARALLELUTIL_VERBOSE
