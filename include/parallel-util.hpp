@@ -5,6 +5,10 @@
 
 #include <vector>
 #include <thread>
+#ifdef PARALLELUTIL_VERBOSE
+#include <mutex>
+#include <iostream>
+#endif
 
 namespace parallelutil
 {
@@ -17,19 +21,35 @@ namespace parallelutil
     {
         const int hint      = (target_concurrency == 0) ? std::thread::hardware_concurrency() : target_concurrency;
         const int n_threads = std::min(n, (hint == 0) ? 4 : hint);
-        
-        auto inner_loop = [n, n_threads, function](const int j)
+#ifdef PARALLELUTIL_VERBOSE
+        std::mutex mutex_object;
+#endif
+
+        auto inner_loop = [&](const int j)
         {
             const int start_index = j * (n / n_threads);
             const int end_index   = (j + 1 == n_threads) ? n : (j + 1) * (n / n_threads);
-            
-            for (int k = start_index; k < end_index; ++ k) { function(k); }
+
+            for (int k = start_index; k < end_index; ++ k)
+            {
+#ifdef PARALLELUTIL_VERBOSE
+                mutex_object.lock();
+                std::cout << "parallel-util ... Thread " << j << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
+                mutex_object.unlock();
+#endif
+                function(k);
+            }
+#ifdef PARALLELUTIL_VERBOSE
+            mutex_object.lock();
+            std::cout << "parallel-util ... Thread " << j << ": done" << std::endl;
+            mutex_object.unlock();
+#endif
         };
         std::vector<std::thread> threads;
         for (int j = 0; j < n_threads; ++ j) { threads.push_back(std::thread(inner_loop, j)); }
         for (auto& t : threads) { t.join(); }
     }
-    
+
     /// \brief Execute a for-loop process for a 2D array (e.g., a bitmap image data) in parallel
     /// \param width The width of the target 2D array. I.e., { 0, 1, ..., width - 1 } will be visited as the first dimensional indices.
     /// \param height The height of the target 2D array. I.e., { 0, 1, ..., height - 1 } will be visited as the second dimensional indices.
@@ -40,14 +60,14 @@ namespace parallelutil
     {
         const int hint      = (target_concurrency == 0) ? std::thread::hardware_concurrency() : target_concurrency;
         const int n_threads = std::min(width * height, (hint == 0) ? 4 : hint);
-        
+
         auto inner_loop = [width, height, n_threads, function](const int j)
         {
             const int n = width * height;
-            
+
             const int start_index = j * (n / n_threads);
             const int end_index   = (j + 1 == n_threads) ? n : (j + 1) * (n / n_threads);
-            
+
             for (int k = start_index; k < end_index; ++ k) { function(k % width, k / width); }
         };
         std::vector<std::thread> threads;
