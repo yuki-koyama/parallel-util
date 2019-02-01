@@ -40,14 +40,14 @@ namespace parallelutil
             {
 #ifdef PARALLELUTIL_VERBOSE
                 mutex_object.lock();
-                std::cout << "parallel-util ... Thread " << j << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
+                std::cout << "parallel-util ... Thread " << j + 1 << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
                 mutex_object.unlock();
 #endif
                 function(k);
             }
 #ifdef PARALLELUTIL_VERBOSE
             mutex_object.lock();
-            std::cout << "parallel-util ... Thread " << j << ": done" << std::endl;
+            std::cout << "parallel-util ... Thread " << j + 1 << ": done" << std::endl;
             mutex_object.unlock();
 #endif
         };
