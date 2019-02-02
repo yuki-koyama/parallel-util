@@ -81,19 +81,21 @@ namespace parallelutil
         for (auto& t : threads) { t.join(); }
     }
 
-#if __cplusplus >= 201402L
     /// \brief Execute "map" operation to an array in parallel
     /// \param input_array The array that will be processed by map operation.
     /// \param function The function that will be used for map operation. It can be specified as a lambda expression. It should take a single input variable whose type is T and returns a non-void class instance etc.
+    /// \return An array of resulting instances.
     template<typename T, typename Callable>
-    decltype(auto) parallel_map(const std::vector<T>& input_array, Callable function, int target_concurrency = 0)
+    auto parallel_map(const std::vector<T>& input_array, Callable function, int target_concurrency = 0)
+#if __cplusplus < 201402L
+    -> std::vector<decltype(function(input_array.front()))>
+#endif
     {
         std::vector<decltype(function(input_array.front()))> result_array(input_array.size());
         auto indexed_function = [&](int index) { result_array[index] = function(input_array[index]); };
         parallel_for(input_array.size(), indexed_function);
         return result_array;
     }
-#endif
 }
 
 #endif /* parallel_util_hpp */
