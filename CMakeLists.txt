@@ -19,4 +19,5 @@ if(PARALLELUTIL_BUILD_TESTS)
 
 	enable_testing()
 	add_test(NAME test-parallel-for COMMAND $<TARGET_FILE:test-parallel-for>)
+	add_test(NAME test-parallel-map COMMAND $<TARGET_FILE:test-parallel-map>)
 endif()
