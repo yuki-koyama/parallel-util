@@ -29,27 +29,27 @@ namespace parallelutil
         const int hint      = (target_concurrency == 0) ? std::thread::hardware_concurrency() : target_concurrency;
         const int n_threads = std::min(n, (hint == 0) ? 4 : hint);
 #ifdef PARALLELUTIL_VERBOSE
-        std::mutex mutex_object;
+        std::mutex io_mutex;
 #endif
 
-        auto inner_loop = [&](const int j)
+        auto inner_loop = [&](const int thread_index)
         {
-            const int start_index = j * (n / n_threads);
-            const int end_index   = (j + 1 == n_threads) ? n : (j + 1) * (n / n_threads);
+            const int start_index = thread_index * (n / n_threads);
+            const int end_index   = (thread_index + 1 == n_threads) ? n : (thread_index + 1) * (n / n_threads);
 
             for (int k = start_index; k < end_index; ++ k)
             {
 #ifdef PARALLELUTIL_VERBOSE
-                mutex_object.lock();
-                std::cout << "parallel-util ... Thread " << j + 1 << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
-                mutex_object.unlock();
+                io_mutex.lock();
+                std::cout << "parallel-util ... Thread " << thread_index + 1 << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
+                io_mutex.unlock();
 #endif
                 function(k);
             }
 #ifdef PARALLELUTIL_VERBOSE
-            mutex_object.lock();
-            std::cout << "parallel-util ... Thread " << j + 1 << ": done" << std::endl;
-            mutex_object.unlock();
+            io_mutex.lock();
+            std::cout << "parallel-util ... Thread " << thread_index + 1 << ": done" << std::endl;
+            io_mutex.unlock();
 #endif
         };
         std::vector<std::thread> threads;
@@ -68,12 +68,12 @@ namespace parallelutil
         const int hint      = (target_concurrency == 0) ? std::thread::hardware_concurrency() : target_concurrency;
         const int n_threads = std::min(width * height, (hint == 0) ? 4 : hint);
 
-        auto inner_loop = [width, height, n_threads, function](const int j)
+        auto inner_loop = [width, height, n_threads, function](const int thread_index)
         {
             const int n = width * height;
 
-            const int start_index = j * (n / n_threads);
-            const int end_index   = (j + 1 == n_threads) ? n : (j + 1) * (n / n_threads);
+            const int start_index = thread_index * (n / n_threads);
+            const int end_index   = (thread_index + 1 == n_threads) ? n : (thread_index + 1) * (n / n_threads);
 
             for (int k = start_index; k < end_index; ++ k) { function(k % width, k / width); }
         };
@@ -97,7 +97,7 @@ namespace parallelutil
         std::mutex queue_mutex;
 
 #ifdef PARALLELUTIL_VERBOSE
-        // Mutex object for io manipulation
+        // Mutex object for IO
         std::mutex io_mutex;
 #endif
 
