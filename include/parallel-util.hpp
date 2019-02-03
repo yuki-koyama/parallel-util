@@ -149,7 +149,7 @@ namespace parallelutil
     {
         std::vector<decltype(function(input_array.front()))> result_array(input_array.size());
         auto indexed_function = [&](int index) { result_array[index] = function(input_array[index]); };
-        parallel_for(input_array.size(), indexed_function);
+        queue_based_parallel_for(input_array.size(), indexed_function);
         return result_array;
     }
 }
