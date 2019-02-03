@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <thread>
+#include <queue>
 #ifdef PARALLELUTIL_VERBOSE
 #include <mutex>
 #include <iostream>
@@ -78,6 +79,61 @@ namespace parallelutil
         };
         std::vector<std::thread> threads;
         for (int j = 0; j < n_threads; ++ j) { threads.push_back(std::thread(inner_loop, j)); }
+        for (auto& t : threads) { t.join(); }
+    }
+
+    /// \brief Execute a for-loop process for an array in parallel based on a task queue
+    /// \param n The number of iterations. I.e., { 0, 1, ..., n - 1 } will be visited.
+    /// \param function The function that will be called in the for-loop. This can be specified as a lambda expression. The type should be equivalent to std::function<void(int)>.
+    /// \param target_concurrency The number of threads that will be generated. When this is set to zero (which is the default), the hardware concurrency will be automatically used.
+    /// \details Compared to parallel_for(), this function is likely to achieve better CPU occupancy especially when the cost of each local process is computationally heterogenous (i.e., some processes are light and others are heavy). However, this function could be slower than parallel_for() in some cases because of (1) cache inefficiency (each thread works on less local processes) and (2) mutex lock for the task queue.
+    template<typename Callable>
+    void queue_based_parallel_for(int n, Callable function, int target_concurrency = 0)
+    {
+        const int hint      = (target_concurrency == 0) ? std::thread::hardware_concurrency() : target_concurrency;
+        const int n_threads = std::min(n, (hint == 0) ? 4 : hint);
+
+        // Mutex object for queue manipulation
+        std::mutex queue_mutex;
+
+#ifdef PARALLELUTIL_VERBOSE
+        // Mutex object for io manipulation
+        std::mutex io_mutex;
+#endif
+
+        std::queue<int> task_queue;
+        for (int i = 0; i < n; ++ i) { task_queue.push(i); }
+
+        auto thread_routine = [&](const int thread_index)
+        {
+            while (true)
+            {
+                queue_mutex.lock();
+
+                if (task_queue.empty()) { queue_mutex.unlock(); break; }
+
+                const int task_index = task_queue.front();
+                task_queue.pop();
+
+                queue_mutex.unlock();
+
+#ifdef PARALLELUTIL_VERBOSE
+                io_mutex.lock();
+                std::cout << "parallel-util ... Thread " << thread_index + 1 << ": " << task_index + 1 << " / " << n << std::endl;
+                io_mutex.unlock();
+#endif
+
+                function(task_index);
+            }
+
+#ifdef PARALLELUTIL_VERBOSE
+            io_mutex.lock();
+            std::cout << "parallel-util ... Thread " << thread_index + 1 << ": done" << std::endl;
+            io_mutex.unlock();
+#endif
+        };
+        std::vector<std::thread> threads;
+        for (int j = 0; j < n_threads; ++ j) { threads.push_back(std::thread(thread_routine, j)); }
         for (auto& t : threads) { t.join(); }
     }
 
