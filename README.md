@@ -1,8 +1,8 @@
 # parallel-util
 
-Simple implementation of "parallel_for" using C++11
+Simple implementation of "parallel_for" and "parallel_map" using C++11
 
-## Usage
+## Usage of `parallel_for`
 
 Suppose that you have a process expressed using C++11 lambda expressions:
 ```
@@ -17,6 +17,10 @@ This can be easily parallelized by
 parallelutil::parallel_for(n, process);
 ```
 This is based on multi-threading and the default concurrency is set to the hardware concurrency.
+
+## Usage of `parallel_map`
+
+(TODO)
 
 ## Installation
 
