@@ -6,11 +6,11 @@ This library is based on multi-threading on CPU (`std::thread`) and the default 
 
 ## Usage of `parallel_for`
 
-Suppose that you have a process expressed using C++11 lambda expressions:
+Suppose that you have a callable function defined by C++11 lambda expression:
 ```
 auto process = [](int i) { ... };
 ```
-and want to parallelize the following for loop:
+and want to parallelize the following for-loop:
 ```
 for (int i = 0; i < n; ++ i) { process(i); }
 ```
@@ -22,6 +22,18 @@ parallelutil::parallel_for(n, process);
 ## Usage of `parallel_map`
 
 (TODO)
+
+Example:
+```
+auto func = [](double x) { return x * x; }
+```
+```
+std::vector<double> input = { 0.2, 0.9, - 0.4, 0.5, 0.3 };
+```
+```
+auto output = parallelutil::parallel_map(input, func);
+```
+`output` is an array: `{ 0.04, 0.81, 0.16, 0.25, 0.09 }`.
 
 ## Installation
 
