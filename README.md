@@ -1,6 +1,8 @@
 # parallel-util
 
-Simple implementation of "parallel_for" and "parallel_map" using C++11
+Simple implementation of "parallel_for" and "parallel_map" using C++11.
+
+This library is based on multi-threading on CPU (`std::thread`) and the default concurrency is set to the hardware concurrency (`std::thread::hardware_concurrency()`).
 
 ## Usage of `parallel_for`
 
@@ -16,7 +18,6 @@ This can be easily parallelized by
 ```
 parallelutil::parallel_for(n, process);
 ```
-This is based on multi-threading and the default concurrency is set to the hardware concurrency.
 
 ## Usage of `parallel_map`
 
