@@ -1,6 +1,6 @@
 # parallel-util
 
-Simple implementation of "parallel_for" and "parallel_map" using C++11.
+Simple implementation of `parallel_for` and `parallel_map` using C++11.
 
 This library is based on multi-threading on CPU (`std::thread`) and the default concurrency is set to the hardware concurrency (`std::thread::hardware_concurrency()`).
 
@@ -34,6 +34,8 @@ std::vector<double> input = { 0.2, 0.9, - 0.4, 0.5, 0.3 };
 auto output = parallelutil::parallel_map(input, func);
 ```
 `output` is an array: `{ 0.04, 0.81, 0.16, 0.25, 0.09 }`.
+
+If you are using C++17 Parallel STL, `std::transform` has similar functionality.
 
 ## Installation
 
