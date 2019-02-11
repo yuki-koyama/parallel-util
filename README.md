@@ -6,7 +6,7 @@ This library is based on multi-threading on CPU (`std::thread`) and the default 
 
 ## Usage of `parallel_for`
 
-Suppose that you have a callable function, for example, defined by C++11 lambda expression:
+Suppose that you have a callable function that can be stored by an instance of `std::function<void(int)>`; for example, defined by C++11 lambda expression:
 ```
 auto process = [](int i) { ... };
 ```
