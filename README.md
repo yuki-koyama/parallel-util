@@ -6,15 +6,15 @@ This library is based on multi-threading on CPU (`std::thread`) and the default 
 
 ## Usage of `parallel_for`
 
-Suppose that you have a callable function defined by C++11 lambda expression:
+Suppose that you have a callable function, for example, defined by C++11 lambda expression:
 ```
 auto process = [](int i) { ... };
 ```
-and want to parallelize the following for-loop:
+and want to parallelize the following for-loop procedure:
 ```
 for (int i = 0; i < n; ++ i) { process(i); }
 ```
-This can be easily parallelized by
+By using parallel-util, this can be easily parallelized by
 ```
 parallelutil::parallel_for(n, process);
 ```
