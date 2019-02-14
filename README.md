@@ -6,7 +6,7 @@ This library is based on multi-threading on CPU (`std::thread`) and the default 
 
 ## Usage of `parallel_for`
 
-Suppose that you have a callable function that can be stored by an instance of `std::function<void(int)>`; for example, defined by C++11 lambda expression:
+Suppose that you have a callable function that can be stored by an instance of `std::function<void(int)>`, for example, defined by C++11 lambda expression:
 ```
 auto process = [](int i) { ... };
 ```
@@ -21,19 +21,19 @@ parallelutil::parallel_for(n, process);
 
 ## Usage of `parallel_map`
 
-(TODO)
-
-Example:
+Suppose that you have a callable function that takes an instance of `T1` as input and returns an instance of `T2` as output, and thus can be stored by an instance of `std::function<T2(T1)>`. For example,
 ```
-auto func = [](double x) { return x * x; }
+auto square = [](double x) { return x * x; };
 ```
+In this case, `T1` = `T2` = `double`. Also suppose that you have an array of `T1` and want to obtain an array of `T2` by applying the function to each array element. For example, you have an array:
 ```
-std::vector<double> input = { 0.2, 0.9, - 0.4, 0.5, 0.3 };
+std::vector<double> input_array = { 0.2, 0.9, - 0.4, 0.5, 0.3 };
 ```
+and want to their squares. By using parallel-util, this can be easily parallelized by
 ```
-auto output = parallelutil::parallel_map(input, func);
+auto output_array = parallelutil::parallel_map(input_array, square);
 ```
-`output` is an array: `{ 0.04, 0.81, 0.16, 0.25, 0.09 }`.
+where `output_array` is an array: `{ 0.04, 0.81, 0.16, 0.25, 0.09 }`.
 
 If you are using C++17 Parallel STL, `std::transform` has similar functionality.
 
