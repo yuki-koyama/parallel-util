@@ -41,7 +41,12 @@ If you are using C++17 Parallel STL, `std::transform` has similar functionality.
 
 `parallel-util` is a header-only, single-file library. It can be used by just copying `parallel-util.hpp` and pasting it into your project.
 
-Alternatively, it can be installed using `cmake`. If your project is also managed using `cmake`, `ExternalProject` commands are useful for including `parallel-util` to your project.
+Alternatively, it can be installed using `cmake`. If your project is also managed using `cmake`, `ExternalProject` or `add_subdirectory` commands are useful for including `parallel-util` to your project.
+
+If you want to install `parallel-util` to your system, use the typical `cmake` cycle:
+```
+(TODO)
+```
 
 ## Dependencies
 
