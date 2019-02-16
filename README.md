@@ -43,6 +43,10 @@ If you are using C++17 Parallel STL, `std::transform` has similar functionality.
 
 Alternatively, it can be installed using `cmake`. If your project is also managed using `cmake`, `ExternalProject` commands are useful for including `parallel-util` to your project.
 
+## Dependencies
+
+- C++ Standard Library; Thread support library (require `-pthread`)
+
 ## Persuing Further Performance
 
 Please consider to use other complex libraries such as Intel(R) Threading Building Blocks.
