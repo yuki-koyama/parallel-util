@@ -45,7 +45,11 @@ Alternatively, it can be installed using `cmake`. If your project is also manage
 
 If you want to install `parallel-util` to your system, use the typical `cmake` cycle:
 ```
-(TODO)
+git clone https://github.com/yuki-koyama/parallel-util.git
+mkdir build
+cd build
+cmake ../parallel-util
+make install
 ```
 
 ## Dependencies
