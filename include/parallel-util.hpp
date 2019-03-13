@@ -9,11 +9,11 @@
 
 // #define PARALLELUTIL_VERBOSE
 
-#include <vector>
-#include <thread>
-#include <queue>
-#ifdef PARALLELUTIL_VERBOSE
 #include <mutex>
+#include <queue>
+#include <thread>
+#include <vector>
+#ifdef PARALLELUTIL_VERBOSE
 #include <iostream>
 #endif
 
