@@ -152,6 +152,12 @@ namespace parallelutil
         queue_based_parallel_for(input_array.size(), indexed_function);
         return result_array;
     }
+
+    /// \brief Execute a set of processes in parallel
+    inline void parallel_exec(const std::vector<std::function<void()>>& functions)
+    {
+        queue_based_parallel_for(functions.size(), [&](int index) { functions[index](); });
+    }
 }
 
 #endif /* parallel_util_hpp */

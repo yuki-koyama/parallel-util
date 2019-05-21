@@ -1,6 +1,6 @@
 # parallel-util
 
-Simple implementation of `parallel_for` and `parallel_map` using C++11.
+Simple implementation of `parallel_for`, `parallel_map`, and `parallel_exec` using C++11.
 
 This library is based on multi-threading on CPU (`std::thread`) and the default concurrency is set to the hardware concurrency (`std::thread::hardware_concurrency()`).
 
@@ -36,6 +36,19 @@ auto output_array = parallelutil::parallel_map(input_array, square);
 where `output_array` is an array: `{ 0.04, 0.81, 0.16, 0.25, 0.09 }`.
 
 If you are using C++17 Parallel STL, `std::transform` has similar functionality.
+
+## Usage of `parallel_exec`
+
+An arbitrary number of functions whose type is `std::function<void()>`, for example,
+```
+auto process_1 = [](){ ... };
+auto process_2 = [](){ ... };
+auto process_3 = [](){ ... };
+```
+can be executed in parallel by
+```
+parallelutil::parallel_exec({ process_1, process_2, process_3 });
+```
 
 ## Installation
 
