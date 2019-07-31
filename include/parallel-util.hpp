@@ -32,16 +32,20 @@ namespace parallelutil
         std::mutex io_mutex;
 #endif
 
+        const int n_max_tasks_per_thread = (n / n_threads) + (n % n_threads == 0 ? 0 : 1);
+        const int n_lacking_tasks        = n_max_tasks_per_thread * n_threads - n;
+
         auto inner_loop = [&](const int thread_index)
         {
-            const int start_index = thread_index * (n / n_threads);
-            const int end_index   = (thread_index + 1 == n_threads) ? n : (thread_index + 1) * (n / n_threads);
+            const int n_lacking_tasks_so_far = std::max(thread_index - n_threads + n_lacking_tasks, 0);
+            const int inclusive_start_index  = thread_index * n_max_tasks_per_thread - n_lacking_tasks_so_far;
+            const int exclusive_end_index    = inclusive_start_index + n_max_tasks_per_thread - (thread_index - n_threads + n_lacking_tasks >= 0 ? 1 : 0);
 
-            for (int k = start_index; k < end_index; ++ k)
+            for (int k = inclusive_start_index; k < exclusive_end_index; ++ k)
             {
 #ifdef PARALLELUTIL_VERBOSE
                 io_mutex.lock();
-                std::cout << "parallel-util ... Thread " << thread_index + 1 << ": " << k - start_index + 1 << " / " << end_index - start_index << std::endl;
+                std::cout << "parallel-util ... Thread " << thread_index + 1 << ": " << k - inclusive_start_index + 1 << " / " << exclusive_end_index - inclusive_start_index << std::endl;
                 io_mutex.unlock();
 #endif
                 function(k);
