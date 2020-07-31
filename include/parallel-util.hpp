@@ -9,6 +9,7 @@
 
 // #define PARALLELUTIL_VERBOSE
 
+#include <functional>
 #include <mutex>
 #include <queue>
 #include <thread>
