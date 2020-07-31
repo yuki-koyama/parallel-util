@@ -1,0 +1,17 @@
+name: macOS
+
+on: [push]
+
+jobs:
+  build-test:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: build-tests
+      run: |
+        cmake -DPARALLELUTIL_BUILD_TESTS=ON .
+        make
+    - name: ctest
+      run: ctest
