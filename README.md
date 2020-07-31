@@ -1,6 +1,6 @@
 # parallel-util
 
-Simple implementation of `parallel_for`, `parallel_map`, and `parallel_exec` using C++11.
+A single-header implementation of `parallel_for`, `parallel_map`, and `parallel_exec` using C++11.
 
 This library is based on multi-threading on CPU (`std::thread`) and the default concurrency is set to the hardware concurrency (`std::thread::hardware_concurrency()`).
 
@@ -71,7 +71,7 @@ make install
 
 ## Persuing Further Performance
 
-Please consider to use other complex libraries such as Intel(R) Threading Building Blocks.
+Please consider to use more sophisticated libraries such as Intel(R) Threading Building Blocks.
 
 ## Projects using parallel-util
 
