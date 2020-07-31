@@ -1,5 +1,7 @@
 # parallel-util
 
+![Test](https://github.com/yuki-koyama/parallel-util/workflows/Test/badge.svg)
+
 A single-header implementation of `parallel_for`, `parallel_map`, and `parallel_exec` using C++11.
 
 This library is based on multi-threading on CPU (`std::thread`) and the default concurrency is set to the hardware concurrency (`std::thread::hardware_concurrency()`).
